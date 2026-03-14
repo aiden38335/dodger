@@ -9,3 +9,7 @@ this file will help you create a fully opperating dodging game with the deep und
 - lives and scores
 - dodging the villans falling from the sky with random shapes, size and speed
 
+## Structure 
+step 2 - 
+step 3 - 
+step 4 - 
