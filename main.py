@@ -2,6 +2,7 @@ import pygame, random, sys
 from pygame.locals import *
 from pathlib import Path
 
+#Final version of the dodger game
 # Directory --> a way of importing fileswithout having to move to other files, its like a parent file 
 BASE_DIR = Path(__file__).resolve().parent
 ASSETS_DIR = BASE_DIR / 'assets'
@@ -58,6 +59,11 @@ pygame.display.set_caption('Dodger')
 pygame.mouse.set_visible(False)
 
 font = pygame.font.SysFont(None, 48)
+
+#bringing the game sound in
+game_over_sound = pygame.mixer.Sound(str(ASSETS_DIR/'gameover.wav'))
+pygame.mixer.music.load(str(ASSETS_DIR/'background.mid'))
+
 playerRect = playerImage.get_rect()
 
 windowSurface.fill(BACKGROUNDCOLOR)
@@ -82,6 +88,9 @@ while True:
     playerRect.topleft = (WINDOWWIDTH / 2, WINDOWHEIGHT - 50)
     move_left = move_right = move_up = move_down = False
     baddie_add_counter = 0
+
+    #MUSIC song on 
+    pygame.mixer.music.play(-1,0.0)
 
     while True: 
         score += 1
@@ -126,6 +135,8 @@ while True:
         if moveDown and playerRect.bottom < WINDOWHEIGHT:
             playerRect.move_ip(0, PLAYERMOVERATE)
 
+# Start
+# this is the part where it codes for the loop of the baddie consistently comming out but also codes for the where the baddie is spawned
         baddieAddCounter += 1
         if baddieAddCounter == ADDNEWBADDIERATE:
             baddieAddCounter = 0
@@ -149,7 +160,7 @@ while True:
             if b['rect'].top > WINDOWHEIGHT:
                 baddies.remove(b)
 
-
+# End
         windowSurface.fill(BACKGROUNDCOLOR)
         
         drawText(f"Score: {score}", font, windowSurface, 10, 0)
@@ -169,6 +180,11 @@ while True:
                 topScore = score
             break
         mainClock.tick(FPS)
+
+
+    pygame.mixer.music.stop()
+    game_over_sound.play()
+
     
     drawText('GAME OVER', font, windowSurface, (WINDOWWIDTH /3), (WINDOWHEIGHT/3))
     drawText(' PRESS a key to play again.', font, windowSurface, (WINDOWWIDTH/3)-80, (WINDOWHEIGHT/3)+50)
